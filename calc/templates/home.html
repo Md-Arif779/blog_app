@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home | Hoppo
+{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mb-4">Latest Posts</h1>
+                {% for post in object_list %}
+                    <div class="card mb-4">
+                        {% if post.post_image %}
+                            <img src="{{ post.post_image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 300px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h2 class="card-title"><a href="{% url 'details' post.pk %}">{{ post.title }}</a></h2>
+                            <p class="card-text"><strong>By:</strong>{{ post.author }}</p>
+                            <p class="card-text"><strong>Category:</strong> <a href="{% url 'category' post.category %}" class="text-decoration-none">{{ post.category }}</a></p>
+                            <p class="card-text">{{ post.body|truncatewords:30 }}</p> <!-- Truncate post body to 30 words -->
+                            <a href="{% url 'details' post.pk %}" class="btn btn-primary">Read More</a>
+                            {% if user.is_authenticated and user.id == post.author.id %}
+                                <a href="{% url 'update' post.pk %}" class="btn btn-info">Edit Post</a> 
+                                <a href="{% url 'delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="mb-4">Categories</h3>
+                        <ul class="list-group">
+                            {% for category in categories %}
+                            <li class="list-group-item">
+                                <a href="{% url 'category' category %}" class="text-decoration-none">{{ category }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h3 class="mb-4">Search</h3>
+                        <form method="GET" action="">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control" placeholder="Search for blog posts...">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h3 class="mb-4">Recent Posts</h3>
+                        <ul class="list-group">
+                            {% for recent_post in recent_posts %}
+                            <li class="list-group-item">
+                                <a href="{% url 'details' recent_post.pk %}" class="text-decoration-none">{{ recent_post.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

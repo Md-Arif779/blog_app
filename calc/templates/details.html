@@ -1,0 +1,98 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 order-lg-2">
+                <h1 class="mb-4">{{ post.title }} <small class="text-muted">By: {{ post.author }}</small></h1>
+                <hr>
+                {% if post.post_image %}
+                    <img src="{{ post.post_image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+                {% endif %}
+                <div class="post-body">
+                    {{ post.body|safe }}
+                </div>
+                <br>
+                
+                {% if user.is_authenticated and user.id == post.author.id %}
+                    <a href="{% url 'update' post.pk %}" class="btn btn-info">Edit Post</a>
+                    <a href="{% url 'delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+                {% endif %}
+                <br><br>
+                <form action="{% url 'like_post' post.pk %}" method="POST">
+                    {% csrf_token %}
+                    {% if liked %}
+                        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">Unlike</button>
+                    {% else %}
+                        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">Like</button>
+                    {% endif %}
+                    <span class="ml-2 align-middle">{{ total_likes }} Likes</span>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+                </form>
+                <hr>
+                <h2 class="mb-3">Comments...</h2>
+                {% if not post.comments.all %}
+                    <p>No comments yet... <a href="{% url 'add_comment' post.pk %}" class="btn btn-link">Add one</a></p>
+                {% else %}
+                    <a href="{% url 'add_comment' post.pk %}" class="btn btn-link">Add Comment</a><br>
+                    {% for comment in post.comments.all %}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <strong>{{ comment.name }}</strong> - {{ comment.date_added }}
+                            </div>
+                            <div class="card-body">
+                                {{ comment.body }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-lg-4 order-lg-1">
+                <div class="author-card card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            {% if post.author.profile.profile_pic %}
+                                <img src="{{ post.author.profile.profile_pic.url }}" class="card-img rounded-circle" alt="Profile Picture" width="100" height="100">
+                            {% else %}
+                                <img src="{% static 'calc/images/default.png' %}" class="card-img rounded-circle" alt="Profile Picture" width="100" height="100">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.author }}</h5>
+                                <p class="small text-muted mb-1">
+                                    <a href="{% url 'profie_page' post.author.profile.id %}" class="text-decoration-none">Profile Page</a>
+                                </p>
+                                <p class="card-text">{{ post.author.profile.bio }}</p>
+                                <div class="d-flex">
+                                    {% if post.author.profile.website_url %}
+                                        <a href="{{ post.author.profile.website_url }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Website</a>
+                                    {% endif %}
+                                    {% if post.author.profile.facebook_url %}
+                                        <a href="{{ post.author.profile.facebook_url }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Facebook</a>
+                                    {% endif %}
+                                    {% if post.author.profile.twitter_url %}
+                                        <a href="{{ post.author.profile.twitter_url }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Twitter</a>
+                                    {% endif %}
+                                    {% if post.author.profile.instagram_url %}
+                                        <a href="{{ post.author.profile.instagram_url }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Instagram</a>
+                                    {% endif %}
+                                    {% if post.author.profile.pinterest_url %}
+                                        <a href="{{ post.author.profile.pinterest_url }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Pinterest</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

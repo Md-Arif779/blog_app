@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile Page{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border rounded-lg shadow">
+                    <div class="card-body">
+                        <h1 class="fw-bold">Edit Profile Page</h1>
+                        <br>
+                        <div class="form-group">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button class="btn btn-primary btn-lg rounded-pill mt-4">Update Profile Page</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %} 
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border rounded-lg shadow">
+                    <div class="card-body">
+                        <p class="fw-bold">You are not allowed to edit this profile page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% else %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border rounded-lg shadow">
+                <div class="card-body">
+                    <p class="fw-bold">You are not allowed to access this page. Please log in.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+

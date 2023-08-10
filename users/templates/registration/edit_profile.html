@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border rounded-lg shadow">
+                    <div class="card-body">
+                        <h1 class="fw-bold">Edit Profile Page</h1>
+                        <br>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-lg rounded-pill mt-4">Update Profile Page</button>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <a href="{% url 'password' %}" class="btn btn-outline-info">Change Password</a>
+                                <a href="{% url 'login' %}" class="btn btn-outline-info">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

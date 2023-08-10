@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - {{ page_user.user.username }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card bg-light border rounded-lg shadow">
+                    <div class="card-body text-center">
+                        {% if page_user.profile_pic %}
+                            <img src="{{ page_user.profile_pic.url }}" class="img-fluid rounded-circle mb-3 border border-primary p-1" width="200" height="200" alt="{{ page_user.user.username }}">
+                        {% else %}
+                            <img src="{% static 'calc/images/default.png' %}" class="img-fluid rounded-circle mb-3 border border-primary p-1" width="200" height="200" alt="Default Profile Pic">
+                        {% endif %}
+                        <h4 class="card-title text-primary">{{ page_user.user.username }}</h4>
+                        <p class="card-text">
+                            {% if page_user.website_url %}
+                                <a href="{{ page_user.website_url }}" target="_blank" class="btn btn-primary btn-sm me-2">Website</a>
+                            {% endif %}
+                            {% if page_user.facebook_url %}
+                                <a href="{{ page_user.facebook_url }}" target="_blank" class="btn btn-primary btn-sm me-2">Facebook</a>
+                            {% endif %}
+                            {% if page_user.twitter_url %}
+                                <a href="{{ page_user.twitter_url }}" target="_blank" class="btn btn-primary btn-sm me-2">Twitter</a>
+                            {% endif %}
+                            {% if page_user.instagram_url %}
+                                <a href="{{ page_user.instagram_url }}" target="_blank" class="btn btn-primary btn-sm me-2">Instagram</a>
+                            {% endif %}
+                            {% if page_user.pinterest_url %}
+                                <a href="{{ page_user.pinterest_url }}" target="_blank" class="btn btn-primary btn-sm me-2">Pinterest</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card bg-light border rounded-lg shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary">About Me</h2>
+                        <p class="card-text">{{ page_user.bio }}</p>
+                    </div>
+                </div>
+                <!-- Additional content for the right side of the profile page -->
+                <!-- Add your content here -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

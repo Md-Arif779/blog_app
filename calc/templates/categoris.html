@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Category - {{ category_name }}{% endblock %}
+{% block content %}
+    {% if category_posts %}
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Posts in {{ category_name }}</h1>
+                    {% for post in category_posts %}
+                        <div class="card mb-4">
+                            {% if post.post_image %}
+                                <img src="{{ post.post_image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 300px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h2 class="card-title"><a href="{% url 'details' post.pk %}">{{ post.title }}</a></h2>
+                                <p class="card-text"><strong>Author:</strong> <a href="{% url 'profie_page' post.author.profile.id %}">{{ post.author }}</a></p>
+                                <p class="card-text"><strong>Category:</strong> <a href="{% url 'category' post.category %}">{{ post.category }}</a></p>
+                                <p class="card-text">{{ post.body|truncatechars:200 }}</p>
+                                <a href="{% url 'details' post.pk %}" class="btn btn-primary">Read More</a>
+                                {% if user.is_authenticated and user.id == post.author.id %}
+                                    <a href="{% url 'update' post.pk %}" class="btn btn-info">Edit Post</a> 
+                                    <a href="{% url 'delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="mb-4">Categories</h3>
+                            <ul class="list-group">
+                                {% for category in categories %}
+                                    <li class="list-group-item">
+                                        <a href="{% url 'category' category %}">{{ category }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h3 class="mb-4">Search</h3>
+                            <form method="GET" action="">
+                                <div class="input-group">
+                                    <input type="text" name="query" class="form-control" placeholder="Search for blog posts...">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h3 class="mb-4">Recent Posts</h3>
+                            <ul class="list-group">
+                                {% for recent_post in recent_posts %}
+                                    <li class="list-group-item">
+                                        <a href="{% url 'details' recent_post.pk %}">{{ recent_post.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container my-5">
+            <div class="alert alert-warning" role="alert">
+                Sorry, there are no posts in this category.
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+
+

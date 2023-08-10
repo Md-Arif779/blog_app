@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-section d-flex justify-content-center align-items-center vh-100">
+        <form action="" method="post" enctype="multipart/form-data" class="form-signin border rounded-lg p-4 shadow-lg bg-light w-50">
+            {% csrf_token %}
+            <h1 class="h3 mb-4 fw-bold text-center">Login</h1>
+            <div class="form-floating mb-3">
+                <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
+                <label for="floatingUsername">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="remember_me"> Remember me
+                </label>
+            </div>
+            <button class="w-100 btn btn-primary btn-lg rounded-pill" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock content %}
+
+
+
+

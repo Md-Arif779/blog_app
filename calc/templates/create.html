@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %} <!-- Load Crispy Forms tags -->
+
+{% block title %}Create New Post{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center">
+            <h1 class="fw-bold">Create Post</h1>
+          </div>
+          <div class="form-group mt-4 p-3 border rounded" style="background-color: #f8f9fa;"> <!-- Add custom background color and border -->
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form|crispy }}
+
+              <div class="mt-3">
+                <img id="preview-img" src="#" alt="Preview Image" style="display: none; max-width: 300px; max-height: 200px;">
+              </div>
+
+              <div class="mt-3">
+                <label for="id_post_image" class="btn btn-secondary">Choose Image</label>
+                <input type="file" id="id_post_image" name="post_image" style="display: none;">
+              </div>
+
+              <div class="mt-3">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Post</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Add JavaScript for image preview and dynamic category -->
+          <script>
+            // JavaScript code remains the same
+          </script>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center">
+            <h1 class="fw-bold">Create Post</h1>
+          </div>
+          <div class="text-center mt-4">
+            <p>You are not allowed to create posts. Please login or register.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
